@@ -18,29 +18,26 @@
 </html>
 
 <script>
-
   // https://gist.github.com/msmfsd/fca50ab095b795eb39739e8c4357a808
   async function fetchAsync(url) {
     let response = await fetch(url);
-    let data = response.json();
+    let data = await response.json();
 
     return data;
   }
 
   async function getStories() {
       fetchAsync('https://hacker-news.firebaseio.com/v0/topstories.json')
-        .then(data => getTopStories(data))
+        .then(data => getTopStories(data.slice(0, 30)))
         .catch(reason => console.log(reason));    
   }
 
-  async function getTopStories(stories) {
-    for (var i = 0; i < 30; i++) {
-      var storyURL = 'https://hacker-news.firebaseio.com/v0/item/' + stories[i] + '.json';
-
-      fetchAsync(storyURL)
-        .then(data => appendStoryToMainDiv(data))
-        .catch(reason => console.log(reason));    
-    }
+  async function getTopStories(stories) {      
+    stories.forEach(function(story) { 
+      fetchAsync('https://hacker-news.firebaseio.com/v0/item/' + story + '.json')
+      .then(data => appendStoryToMainDiv(data))
+      .catch(reason => console.log(reason))
+    });
   }
 
   function appendStoryToMainDiv(story) {
