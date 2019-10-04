@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>hn-min</title>
+  <meta name="author" content="corybove.github.io">
+</head>
+
+<body>
+  <h1>hn-min</h1>
+  <div id="mainDiv" role="main">
+    
+  </div>
+</body>
+
+</html>
+
+<script>
+  // https://stackoverflow.com/questions/247483/http-get-request-in-javascript
+
+  function httpGetAsync(url, callback) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", url, true); // true for asynchronous 
+    xmlHttp.send(null);
+  }
+
+  function getStories() {
+    httpGetAsync('https://hacker-news.firebaseio.com/v0/topstories.json', function (response) {
+      // console.log(response);
+      getTopStories(response);
+      //callback(getTopStories);
+    })
+  }
+
+  function getTopStories(resp) {
+    var stories = JSON.parse(resp);
+    for (var i = 0; i < 30; i++) {
+      // console.log(stories[i]);
+      var storyURL = 'https://hacker-news.firebaseio.com/v0/item/' + stories[i] + '.json';
+      // console.log(storyURL);
+      httpGetAsync(storyURL, function (response) {
+        appendStoryToMainDiv(response)
+      })
+    }
+  }
+
+  function appendStoryToMainDiv(resp) {
+    var story = JSON.parse(resp);
+
+    var mainDiv = document.getElementById('mainDiv');
+
+    var newDiv = document.createElement("div")
+    var hr = document.createElement("hr")    
+
+    var title = document.createElement("span")
+    title.innerHTML = story.title;
+
+    newDiv.appendChild(document.createElement("br"))
+
+    var anchor = document.createElement("a")
+    anchor.href = story.url
+    anchor.innerHTML = story.url
+
+    newDiv.appendChild(hr);
+    //------------------------------------------------
+    newDiv.appendChild(title);   
+    newDiv.appendChild(document.createElement("br"));
+    newDiv.appendChild(anchor);
+    newDiv.appendChild(hr);
+    //------------------------------------------------
+    
+    mainDiv.appendChild(newDiv);
+  }
+
+  getStories();
+
+</script>
