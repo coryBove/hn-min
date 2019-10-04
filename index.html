@@ -3,58 +3,51 @@
 
 <head>
   <title>hn-min</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <meta name="author" content="corybove.github.io">
 </head>
 
 <body>
   <h1>hn-min</h1>
   <div id="mainDiv" role="main">
-    
+
   </div>
 </body>
 
 </html>
 
 <script>
-  // https://stackoverflow.com/questions/247483/http-get-request-in-javascript
 
-  function httpGetAsync(url, callback) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function () {
-      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-        callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("GET", url, true); // true for asynchronous 
-    xmlHttp.send(null);
+  // https://gist.github.com/msmfsd/fca50ab095b795eb39739e8c4357a808
+  async function fetchAsync(url) {
+    let response = await fetch(url);
+    let data = response.json();
+
+    return data;
   }
 
-  function getStories() {
-    httpGetAsync('https://hacker-news.firebaseio.com/v0/topstories.json', function (response) {
-      // console.log(response);
-      getTopStories(response);
-      //callback(getTopStories);
-    })
+  async function getStories() {
+      fetchAsync('https://hacker-news.firebaseio.com/v0/topstories.json')
+        .then(data => getTopStories(data))
+        .catch(reason => console.log(reason));    
   }
 
-  function getTopStories(resp) {
-    var stories = JSON.parse(resp);
+  async function getTopStories(stories) {
     for (var i = 0; i < 30; i++) {
-      // console.log(stories[i]);
       var storyURL = 'https://hacker-news.firebaseio.com/v0/item/' + stories[i] + '.json';
-      // console.log(storyURL);
-      httpGetAsync(storyURL, function (response) {
-        appendStoryToMainDiv(response)
-      })
+
+      fetchAsync(storyURL)
+        .then(data => appendStoryToMainDiv(data))
+        .catch(reason => console.log(reason));    
     }
   }
 
-  function appendStoryToMainDiv(resp) {
-    var story = JSON.parse(resp);
-
+  function appendStoryToMainDiv(story) {
     var mainDiv = document.getElementById('mainDiv');
 
     var newDiv = document.createElement("div")
-    var hr = document.createElement("hr")    
+    var hr = document.createElement("hr")
 
     var title = document.createElement("span")
     title.innerHTML = story.title;
@@ -67,15 +60,15 @@
 
     newDiv.appendChild(hr);
     //------------------------------------------------
-    newDiv.appendChild(title);   
+    newDiv.appendChild(title);
     newDiv.appendChild(document.createElement("br"));
     newDiv.appendChild(anchor);
     newDiv.appendChild(hr);
     //------------------------------------------------
-    
+
     mainDiv.appendChild(newDiv);
   }
 
   getStories();
-
+  
 </script>
