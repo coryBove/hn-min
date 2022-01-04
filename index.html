@@ -1,39 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" class="notranslate" translate="no">
+  <head>
+    <title>hn-min</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="corybove.github.io">
 
-<head>
-  <title>hn-min</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="corybove.github.io">
-  <meta name="google" content="notranslate">
+    <meta name="google" content="notranslate">
 
-  <style>
-    body {
-      background-color: rgb(27, 54, 54);
-    }
-    hr {
-      border: 2px dashed black;
-    }
-    a {
-      color: rgb(0, 99, 99);
+    <style>
+      body {
+        background-color: rgb(27, 54, 54);
+      }
+      hr {
+        border: 2px dashed black;
+      }
+      a {
+        color: rgb(0, 99, 99);
+      }
+      a:visited {
+        color: darkslategray;
+      }
+      h1, span {
+        color: gray;
+      }
+    </style>
+  </head>
 
-    }
-    a:visited {
-      color: darkslategray;
-    }
-    h1, span {
-      color: gray;
-    }
-  </style>
-</head>
-
-<body>
-  <h1>hn-min</h1>
-  <div id="mainDiv" role="main">
-
-  </div>
-</body>
-
+  <body>
+    <h1>hn-min</h1>
+    <div id="mainDiv" role="main">
+      <!-- Top 30 stories get appended here using vanilla JS -->
+    </div>
+  </body>
 </html>
 
 <script>
@@ -87,6 +85,5 @@
     mainDiv.appendChild(newDiv);
   }
 
-  getStories();
-  
+  getStories(); 
 </script>
