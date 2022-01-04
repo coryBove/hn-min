@@ -5,4 +5,4 @@ https://corybove.github.io/hn-min
 
 Pulled from the HN public api (https://github.com/HackerNews/API)
 
-Thanks, HN!
+Thank You HN!

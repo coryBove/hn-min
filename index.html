@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="notranslate" translate="no">
 
 <head>
   <title>hn-min</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <meta name="author" content="corybove.github.io">
+  <meta name="google" content="notranslate">
+
+  <style>
+    body {
+      background-color: rgb(27, 54, 54);
+    }
+    hr {
+      border: 2px dashed black;
+    }
+    a {
+      color: rgb(0, 99, 99);
+
+    }
+    a:visited {
+      color: darkslategray;
+    }
+    h1, span {
+      color: gray;
+    }
+  </style>
 </head>
 
 <body>
@@ -43,18 +62,19 @@
   function appendStoryToMainDiv(story) {
     var mainDiv = document.getElementById('mainDiv');
 
-    var newDiv = document.createElement("div")
-    var hr = document.createElement("hr")
+    var newDiv = document.createElement("div");
+    var hr = document.createElement("hr");
 
-    var title = document.createElement("span")
+    var title = document.createElement("span");
     title.innerHTML = story.title;
 
-    newDiv.appendChild(document.createElement("br"))
+    newDiv.appendChild(document.createElement("br"));
 
-    var anchor = document.createElement("a")
-    anchor.href = story.url
-    anchor.innerHTML = story.url
-    anchor.target = "_blank"
+    var anchor = document.createElement("a");
+    var anchorURL = story.url ?? 'https://news.ycombinator.com/item?id=' + story.id;
+    anchor.href = anchorURL;
+    anchor.innerHTML = story.url ?? 'Read comments on Hacker News...';
+    anchor.target = "_blank";
 
     newDiv.appendChild(hr);
     //------------------------------------------------
